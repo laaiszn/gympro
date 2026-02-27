@@ -44,7 +44,7 @@ class AlunoController extends Aluno {
   }
   static async aluno(req: Request, res: Response): Promise<Response> {
     try {
-      const idAluno: number = parseInt(req.params.idLivro as string);
+      const idAluno: number = parseInt(req.params.idAluno as string);
 
       if (isNaN(idAluno) || idAluno <= 0) {
         return res.status(400).json({ mensagem: "ID do Aluno inválido." });
