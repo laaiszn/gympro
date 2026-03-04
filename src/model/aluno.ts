@@ -111,7 +111,7 @@ this.email = _email || '';
     try {
       const lista: Array<Aluno> = [];
 
-      const query = `SELECT * FROM Aluno ORDER BY nome ASC;`;
+      const query = `SELECT * FROM Aluno;`;
       const respostaBD = await database.query(query);
 
       respostaBD.rows.forEach((alunoBD: any) => {

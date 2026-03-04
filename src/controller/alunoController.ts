@@ -6,7 +6,7 @@ class AlunoController extends Aluno {
    * Faz a chamada ao modelo para obter a lista de Alunos e devolve ao Aluno
    *
    * @param req Requisição do Aluno
-   * @param res Resposta do servidor
+   * @param res Resposta do servidor                    
    * @returns (200) Lista de todos os Alunos
    * @returns (500) Erro na consulta
    */
