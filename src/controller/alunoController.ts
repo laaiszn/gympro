@@ -50,7 +50,7 @@ class AlunoController extends Aluno {
         return res.status(400).json({ mensagem: "ID do Aluno inválido." });
       }
 
-      const aluno = Aluno.listarAluno(idAluno);
+      const aluno = await Aluno.listarAluno(idAluno);
 
       return res.status(200).json(aluno);
     } catch (error) {

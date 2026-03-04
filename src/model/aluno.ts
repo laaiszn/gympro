@@ -140,12 +140,11 @@ this.email = _email || '';
     }
   }
 
-
-  static async cadastrarAluno(aluno: Aluno): Promise<boolean> {
+  static async cadastrarAluno(aluno: any): Promise<boolean> {
     try {
       const query = `
-        INSERT INTO Aluno (nome, sobrenome, cpf, data_nascimento, endereco, email, celular, senha, status_aluno)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,);
+        INSERT INTO Aluno (nome, sobrenome, cpf, data_nascimento, endereco, email, celular, senha_hash, status_aluno)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
         RETURNING id_aluno;
       `;
 
@@ -157,7 +156,7 @@ this.email = _email || '';
         aluno.endereco,
         aluno.email?.toLowerCase(),
         aluno.celular,
-        aluno.senha,
+        aluno.senha_hash,
         aluno.statusAluno
       ]);
 

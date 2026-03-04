@@ -1,8 +1,10 @@
 export interface MatriculaDTO {
-    cod_aluno: number;
-    cod_plano: number;
-    data_matricula: Date;
-    data_vencimento?: Date;
-    valor_pago: number;
+    cod_matricula: string;     
+    id_aluno: number;
+    id_plano: number;          
+    data_inicio: string | Date
+    data_fim: string | Date;
     status_matricula: string;
+    forma_pagamento?: string;  
+    valor_final: number;       
 }

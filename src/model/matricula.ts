@@ -86,29 +86,34 @@ public setStatusMatricula(statusMatricula: string): void {
 static async cadastrarMatricula(matricula: MatriculaDTO): Promise<boolean> {
     try {
         const query = `
-        INSERT INTO matriculas (cod_aluno, cod_plano, data_matricula, data_vencimento, valor_pago, status_matricula)
-        VALUES ($1, $2, $3, $4, $5, $6)
-       `;
-        const respostaBD = await database.query(query, [
-            matricula.cod_aluno,
-            matricula.cod_plano,
-            matricula.data_matricula,
-            matricula.data_vencimento,
-            matricula.valor_pago,
-            matricula.status_matricula
-        ]); if (respostaBD.rows.length > 0) {
-            console.info(`Matrícula cadastrada com sucesso. ID: ${respostaBD.rows[0].id_matricula}`);
-            return true;
-        } 
-        return false;
+            INSERT INTO Matricula 
+            (cod_matricula, id_aluno, id_plano, data_inicio, data_fim, status_matricula, forma_pagamento, valor_final)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            RETURNING id_matricula;
+        `;
+
+        const valores = [
+            matricula.cod_matricula,   
+            matricula.id_aluno,        
+            matricula.id_plano,        
+            matricula.data_inicio,     
+            matricula.data_fim,        
+            matricula.status_matricula,
+            matricula.forma_pagamento, 
+            matricula.valor_final     
+        ];
+
+        const respostaBD = await database.query(query, valores);
+
+        return (respostaBD.rowCount ?? 0) > 0;
     } catch (error) {
-        console.error(`Erro ao cadastrar matrícula. ${error}`);
+        console.error(`Erro ao cadastrar matrícula: ${error}`);
         return false;
     }
 }
  static async listarMatricula(idMatricula: number): Promise<Matricula | null> {
     try {
-        const query = `SELECT * FROM matriculas WHERE id_matricula=$1;`;
+        const query = `SELECT * FROM Matricula WHERE id_matricula=$1;`;
         const respostaBD = await database.query(query, [idMatricula]);
         if (respostaBD.rows.length > 0) {
 
@@ -136,7 +141,7 @@ static async cadastrarMatricula(matricula: MatriculaDTO): Promise<boolean> {
 }
 static async listarMatriculas(): Promise<Array<Matricula> | null> {
     try {
-        const query = `SELECT * FROM matriculas;`;
+        const query = `SELECT * FROM Matricula;;`;
         const respostaBD = await database.query(query);
         const matriculas: Array<Matricula> = [];
         respostaBD.rows.forEach((matriculaBD: any) => {

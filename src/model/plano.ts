@@ -96,21 +96,22 @@ class Plano {
       return null;
     }
   }
-
-  static async cadastrarPlano(plano: PlanoDTO): Promise<boolean> {
+static async cadastrarPlano(plano: PlanoDTO): Promise<boolean> {
     try {
         const query = `
             INSERT INTO plano
-            (nome_plano, duracao_dias, valor, descricao, status_plano)
+            (tipo_plano, duracao_dias, valor, descricao, status_plano)
             VALUES ($1, $2, $3, $4, $5)
             RETURNING cod_plano;
         `;
 
+        // O array de valores DEVE ter 5 itens na ordem exata da query acima
         const respostaBD = await database.query(query, [
-          plano.tipo_plano,
-            plano.valor,
-            plano.descricao,
-            plano.status_plano
+            plano.tipo_plano,   // $1 -> tipo_plano
+            plano.duracao_dias, // $2 -> duracao_dias
+            plano.valor,        // $3 -> valor
+            plano.descricao,    // $4 -> descricao
+            plano.status_plano  // $5 -> status_plano
         ]);
 
         if (respostaBD.rows.length > 0) {
@@ -124,11 +125,10 @@ class Plano {
         return false;
     }
 }
-
   static async listarPlano(codPlano:number):Promise<Plano | null>{
     try{
 
-      const query = `SELECT * FROM Plano WHERE cod_plano=$1`;
+      const query = `SELECT * FROM Plano WHERE id_plano=$1`;
 
       const respostaBD = await database.query(query,[codPlano]);
 
