@@ -1,5 +1,4 @@
-import {DatabaseModel} from "./DataBaseModel.js";
-
+import { DatabaseModel } from "./DataBaseModel.js";
 
 const database = new DatabaseModel().pool;
 
@@ -26,15 +25,15 @@ class Aluno {
     _endereco?: string,
     _email?: string
   ) {
-   this.nome = _nome;
-this.sobrenome = _sobrenome;
-this.cpf = _cpf;
-this.dataNascimento = _dataNascimento;
-this.celular = _celular;
-this.senha = _senha;
-this.statusAluno = _statusAluno;
-this.endereco = _endereco || '';
-this.email = _email || '';
+    this.nome = _nome;
+    this.sobrenome = _sobrenome;
+    this.cpf = _cpf;
+    this.dataNascimento = _dataNascimento;
+    this.celular = _celular;
+    this.senha = _senha;
+    this.statusAluno = _statusAluno;
+    this.endereco = _endereco || '';
+    this.email = _email || '';
   }
 
   public getIdAluno(): number {
@@ -65,10 +64,10 @@ this.email = _email || '';
     this.cpf = cpf;
   }
 
-  public getDataNascimento(): Date{
+  public getDataNascimento(): Date {
     return this.dataNascimento!;
   }
-  public setDataNascimento(dataNascimento: Date ): void {
+  public setDataNascimento(dataNascimento: Date): void {
     this.dataNascimento = dataNascimento;
   }
 
@@ -150,14 +149,14 @@ this.email = _email || '';
 
       const respostaBD = await database.query(query, [
         aluno.nome.toUpperCase(),
-        aluno.sobrenome.toUpperCase(),
-        aluno.cpf,
-        aluno.dataNascimento,
-        aluno.endereco,
-        aluno.email?.toLowerCase(),
-        aluno.celular,
-        aluno.senha_hash,
-        aluno.statusAluno
+        aluno.sobrenome.toUpperCase(),     
+        aluno.cpf,                        
+        aluno.dataNascimento,              
+        aluno.endereco,                   
+        aluno.email?.toLowerCase(),        
+        aluno.celular,                     
+        aluno.senha,                      
+        aluno.statusAluno               
       ]);
 
       if (respostaBD.rows.length > 0) {

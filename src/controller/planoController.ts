@@ -13,49 +13,49 @@ class PlanoController extends Plano {
    * @returns (500) Erro na consulta
    */
 
-  static async  todos(req: Request, res: Response): Promise<Response>{
-    try {
-        const listaPlanos: Array<Plano> | null = await Plano.listarPlanos();
+    static async todos(req: Request, res: Response): Promise<Response> {
+        try {
+            const listaPlanos: Array<Plano> | null = await Plano.listarPlanos();
 
-        return res.status(200).json(listaPlanos);
-        
-    } catch (error) {
-        console.error(`Erro ao consultar modelo. ${error}`);
+            return res.status(200).json(listaPlanos);
 
-        return res.status(500).json({mensagem:"Não foi possível acessar a lista de planos."});
+        } catch (error) {
+            console.error(`Erro ao consultar modelo. ${error}`);
+
+            return res.status(500).json({ mensagem: "Não foi possível acessar a lista de planos." });
+        }
     }
-  }
 
-    static async novo(req: Request, res: Response): Promise<Response>{
+    static async novo(req: Request, res: Response): Promise<Response> {
         try {
             const dadosRecebidosPlano = req.body;
             const respostaModelo = await Plano.cadastrarPlano(dadosRecebidosPlano);
-            if(respostaModelo){
-                return res.status(201).json({mensagem:"Plano cadastrado com sucesso."});
+            if (respostaModelo) {
+                return res.status(201).json({ mensagem: "Plano cadastrado com sucesso." });
             } else {
-                return res.status(400).json({mensagem:"Erro ao cadastrar plano."});
+                return res.status(400).json({ mensagem: "Erro ao cadastrar plano." });
             }
-            
+
         } catch (error) {
             console.error(`Erro no modelo. ${error}`);
-            return res.status(500).json({mensagem:"Não foi possível inserir o plano."});
+            return res.status(500).json({ mensagem: "Não foi possível inserir o plano." });
         }
-    
-} 
-static async plano(req: Request, res: Response): Promise<Response>{
-    try {
-        const idPlano: number = parseInt(req.params.idPlano as string);
 
-        if(isNaN(idPlano) || idPlano <= 0){
-            return res.status(400).json({mensagem:"ID do plano inválido."});
-        }
-        const plano = await Plano.listarPlano(idPlano);
-        return res.status(200).json(plano);
-    } catch (error) {
-        console.error(`Erro ao acessar o plano. ${error}`);
-        return res.status(500).json({mensagem:"Não foi possível recuperar o plano."});
     }
+    static async plano(req: Request, res: Response): Promise<Response> {
+        try {
+            const idPlano: number = parseInt(req.params.idPlano as string);
 
-}
+            if (isNaN(idPlano) || idPlano <= 0) {
+                return res.status(400).json({ mensagem: "ID do plano inválido." });
+            }
+            const plano = await Plano.listarPlano(idPlano);
+            return res.status(200).json(plano);
+        } catch (error) {
+            console.error(`Erro ao acessar o plano. ${error}`);
+            return res.status(500).json({ mensagem: "Não foi possível recuperar o plano." });
+        }
+
+    }
 }
 export default PlanoController;
