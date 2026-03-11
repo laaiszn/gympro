@@ -8,7 +8,7 @@ CREATE TABLE Aluno (
     endereco VARCHAR(200),
     email VARCHAR(80) UNIQUE NOT NULL,
     celular VARCHAR(20) NOT NULL,
-    senha_hash VARCHAR(255) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
     status_aluno VARCHAR(20) DEFAULT 'ATIVO'
 );
 

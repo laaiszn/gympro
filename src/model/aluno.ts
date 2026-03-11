@@ -1,4 +1,5 @@
 import { DatabaseModel } from "./DataBaseModel.js";
+import bcrypt from "bcrypt";
 
 const database = new DatabaseModel().pool;
 
@@ -110,7 +111,7 @@ class Aluno {
     try {
       const lista: Array<Aluno> = [];
 
-      const query = `SELECT * FROM Aluno;`;
+      const query = `SELECT id_aluno, nome, sobrenome, cpf, data_nascimento, endereco, email, celular, status_aluno FROM Aluno;`;
       const respostaBD = await database.query(query);
 
       respostaBD.rows.forEach((alunoBD: any) => {
@@ -120,15 +121,13 @@ class Aluno {
           alunoBD.cpf,
           alunoBD.data_nascimento,
           alunoBD.celular,
-          alunoBD.email,
-          alunoBD.endereco,
-          alunoBD.senha,
-          alunoBD.status_aluno
+          alunoBD.senha,       
+          alunoBD.status_aluno, 
+          alunoBD.endereco,    
+          alunoBD.email        
         );
 
-
         novoAluno.setIdAluno(alunoBD.id_aluno);
-
         lista.push(novoAluno);
       });
 
@@ -142,21 +141,21 @@ class Aluno {
   static async cadastrarAluno(aluno: any): Promise<boolean> {
     try {
       const query = `
-        INSERT INTO Aluno (nome, sobrenome, cpf, data_nascimento, endereco, email, celular, senha_hash, status_aluno)
+        INSERT INTO Aluno (nome, sobrenome, cpf, data_nascimento, endereco, email, celular, senha, status_aluno)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
         RETURNING id_aluno;
       `;
 
       const respostaBD = await database.query(query, [
         aluno.nome.toUpperCase(),
-        aluno.sobrenome.toUpperCase(),     
-        aluno.cpf,                        
-        aluno.dataNascimento,              
-        aluno.endereco,                   
-        aluno.email?.toLowerCase(),        
-        aluno.celular,                     
-        aluno.senha,                      
-        aluno.statusAluno               
+        aluno.sobrenome.toUpperCase(),
+        aluno.cpf,
+        aluno.dataNascimento,
+        aluno.endereco,
+        aluno.email?.toLowerCase(),
+        aluno.celular,
+        aluno.senha,
+        aluno.statusAluno
       ]);
 
       if (respostaBD.rows.length > 0) {
@@ -185,10 +184,10 @@ class Aluno {
           alunoBD.cpf,
           alunoBD.data_nascimento,
           alunoBD.celular,
-          alunoBD.email,
-          alunoBD.endereco,
-          alunoBD.senha,
-          alunoBD.status_aluno
+          alunoBD.senha,        // Ordem corrigida
+          alunoBD.status_aluno, // Ordem corrigida
+          alunoBD.endereco,     // Ordem corrigida
+          alunoBD.email         // Ordem corrigida
         );
 
         aluno.setIdAluno(alunoBD.id_aluno);
