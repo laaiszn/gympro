@@ -29,9 +29,6 @@ class PlanoController extends Plano {
     static async novo(req: Request, res: Response): Promise<Response> {
         try {
 
-   
-
-
             const dadosRecebidosPlano = req.body;
             const respostaModelo = await Plano.cadastrarPlano(dadosRecebidosPlano);
             if (respostaModelo) {
@@ -47,6 +44,7 @@ class PlanoController extends Plano {
 
     }
     static async plano(req: Request, res: Response): Promise<Response> {
+
         try {
             const idPlano: number = parseInt(req.params.idPlano as string);
 

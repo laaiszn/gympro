@@ -69,7 +69,6 @@ class Plano {
     try {
 
       const lista: Array<Plano> = [];
-
       const query = `SELECT * FROM Plano;`;
 
       const respostaBD = await database.query(query);
