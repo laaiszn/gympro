@@ -6,19 +6,19 @@ const database = new DatabaseModel().pool;
 class Plano {
 
   private codPlano: number = 0;
-  private nomePlano: string;
+  private tipoPlano: string;
   private valor: number;
   private descricao?: string;
   private statusPlano: string;
 
   constructor(
-    _nomePlano: string,
+    _tipoPlano: string,
     _duracaoDias: number,
     _valor: number,
     _statusPlano: string,
     _descricao?: string
   ) {
-    this.nomePlano = _nomePlano;
+    this.tipoPlano = _tipoPlano;
     this.valor = _valor;
     this.statusPlano = _statusPlano;
     this.descricao = _descricao || '';
@@ -32,12 +32,12 @@ class Plano {
     this.codPlano = codPlano;
   }
 
-  public getNomePlano(): string {
-    return this.nomePlano;
+  public getTipoPlano(): string {
+    return this.tipoPlano;
   }
 
-  public setNomePlano(nome: string): void {
-    this.nomePlano = nome;
+  public setTipoPlano(tipo: string): void {
+    this.tipoPlano = tipo;
   }
 
   public getValor(): number {
@@ -70,14 +70,14 @@ class Plano {
 
       const lista: Array<Plano> = [];
 
-      const query = `SELECT * FROM Plano ORDER BY nome_plano ASC;`;
+      const query = `SELECT * FROM Plano;`;
 
       const respostaBD = await database.query(query);
 
       respostaBD.rows.forEach((planoBD: any) => {
 
         const plano = new Plano(
-          planoBD.nome_plano,
+          planoBD.tipo_plano,
           planoBD.duracao_dias,
           planoBD.valor,
           planoBD.status_plano,
@@ -105,13 +105,13 @@ class Plano {
             RETURNING cod_plano;
         `;
 
-      // O array de valores DEVE ter 5 itens na ordem exata da query acima
+      // O array de valores DEVE ter 6 itens na ordem exata da query acima
       const respostaBD = await database.query(query, [
-        plano.tipo_plano,   // $1 -> tipo_plano
-        plano.duracao_dias, // $2 -> duracao_dias
-        plano.valor,        // $3 -> valor
-        plano.descricao,    // $4 -> descricao
-        plano.status_plano  // $5 -> status_plano
+        plano.tipo_plano,   // $2 -> tipo_plano
+        plano.duracao_dias, // $3 -> duracao_dias
+        plano.valor,        // $4 -> valor
+        plano.descricao,    // $5 -> descricao
+        plano.status_plano  // $6 -> status_plano
       ]);
 
       if (respostaBD.rows.length > 0) {
@@ -137,7 +137,7 @@ class Plano {
         const planoBD = respostaBD.rows[0];
 
         const plano = new Plano(
-          planoBD.nome_plano,
+          planoBD.tipo_plano,
           planoBD.duracao_dias,
           planoBD.valor,
           planoBD.status_plano,

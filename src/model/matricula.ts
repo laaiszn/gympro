@@ -10,6 +10,7 @@ class Matricula {
     private dataMatricula: Date;
     private dataVencimento: Date;
     private valorPago: number;
+    private formaPagamento: string;
     private statusMatricula: string;
 
     constructor(
@@ -18,6 +19,7 @@ class Matricula {
         _dataMatricula: Date,
         _dataVencimento: Date,
         _valorPago: number,
+        _formaPagamento: string,
         _statusMatricula: string
     ) {
         this.codAluno = _codAluno;
@@ -25,6 +27,7 @@ class Matricula {
         this.dataMatricula = _dataMatricula;
         this.dataVencimento = _dataVencimento;
         this.valorPago = _valorPago;
+        this.formaPagamento = _formaPagamento;
         this.statusMatricula = _statusMatricula;
     }
     public getIdMatricula(): number {
@@ -74,6 +77,13 @@ class Matricula {
     public setValorPago(valorPago: number): void {
         this.valorPago = valorPago;
     }
+    public getFormaPagamento(): string {
+        return this.formaPagamento;
+    }
+
+    public setFormaPagamento(formaPagamento: string): void {
+        this.formaPagamento = formaPagamento;
+    }
 
     public getStatusMatricula(): string {
         return this.statusMatricula;
@@ -120,13 +130,13 @@ class Matricula {
 
                 const matriculaBD = respostaBD.rows[0];
 
-
                 const matricula = new Matricula(
-                    matriculaBD.cod_aluno,
-                    matriculaBD.cod_plano,
-                    matriculaBD.data_matricula,
-                    matriculaBD.data_vencimento,
-                    matriculaBD.valor_pago,
+                    matriculaBD.id_aluno,
+                    matriculaBD.id_plano,
+                    matriculaBD.data_inicio,
+                    matriculaBD.data_fim,
+                    matriculaBD.valor_final,
+                    matriculaBD.forma_pagamento,
                     matriculaBD.status_matricula
                 );
                 matricula.setIdMatricula(matriculaBD.id_matricula);
@@ -141,16 +151,17 @@ class Matricula {
     }
     static async listarMatriculas(): Promise<Array<Matricula> | null> {
         try {
-            const query = `SELECT * FROM Matricula;;`;
+            const query = `SELECT * FROM Matricula;`;
             const respostaBD = await database.query(query);
             const matriculas: Array<Matricula> = [];
             respostaBD.rows.forEach((matriculaBD: any) => {
                 const matricula = new Matricula(
-                    matriculaBD.cod_aluno,
-                    matriculaBD.cod_plano,
-                    matriculaBD.data_matricula,
-                    matriculaBD.data_vencimento,
-                    matriculaBD.valor_pago,
+                    matriculaBD.id_aluno,
+                    matriculaBD.id_plano,
+                    matriculaBD.data_inicio,
+                    matriculaBD.data_fim,
+                    matriculaBD.valor_final,
+                    matriculaBD.forma_pagamento,
                     matriculaBD.status_matricula
                 );
                 matricula.setIdMatricula(matriculaBD.id_matricula);
